@@ -8,20 +8,33 @@ Created on Wed Nov 25 16:32:09 2020
 import numpy as np
 from itertools import product
 
+
+
 class Atom():
     
     def __init__(self, coordinates=(0.0,0.0,0.0), element="Fe"):
         self.coordinates = np.array(coordinates)
         self.element = element
+        self.distances = []
+        self.distance_matrix = []
+        self.formfactor_matrix = []
         
+    def __eq__(self, other):
+        if id(self) == id(other):
+            return True
+        else:
+            return False
+        
+
         
 class Crystal():
-    def __init__(self, diameter, unitcell, elements):
+    def __init__(self, diameter, unitcell, elements, latticepar):
         self.diameter = diameter
         self.radius = diameter/2.0
         self.atoms = list()
         self.unitcell = unitcell
         self.elements = elements
+        self.latticepar = latticepar
         
         for a,e in zip(self.unitcell, self.elements):
             for f in product(range(self.diameter), range(self.diameter), range(self.diameter)):
@@ -57,9 +70,28 @@ class Crystal():
             element_list.append(atom.element)         
         return x,y,z, element_list
             
-            
-        
-                
+    def calculate_distance_matrix(self):
+        x,y,z,elements = self.return_coordinate_list()
+        coordinates = np.vstack((x,y,z)).T
+        self.distance_matrix = np.linalg.norm(coordinates[:,None,:] - coordinates[None, :,:], axis=-1)
+
+    
+    def calculate_formfactor_matrix(self):
+        x,y,z,elements = self.return_coordinate_list()
+        elements = np.array(elements)
+        formfactors =[] 
+        for e in elements:
+            if e == 'Fe':
+                formfactors.append(2)
+            else:
+                formfactors.append(3)
+        formfactors = np.array(formfactors)
+        #calculate dyadic product of the formfactor vector
+        self.formfactor_matrix = np.outer(formfactors,formfactors)
+        #formfactor_matrix contains entries: if fij=4 --> f_fe**2;
+        #                                       fij=6 --> f_o*f_fe;
+        #                                       fij=9 --> f_o**2
+
     def rotate(self,alpha,beta,gamma):
         alpha = np.pi/180.0
         beta = np.pi/180.0
