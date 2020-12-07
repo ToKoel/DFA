@@ -9,6 +9,7 @@ Created on Mon Dec  7 13:59:36 2020
 import crystal
 import dse
 import plotting
+import parsers
 
 class Experiment():
     def __init__(self,wavelength,
@@ -18,7 +19,7 @@ class Experiment():
                  x_max,
                  partitions,
                  diameter,
-                 unitcell,
+                 cif_file,
                  filename,
                  
                  x_par = "Theta",
@@ -39,6 +40,8 @@ class Experiment():
         print("===============================")
         print("Experiment started")
         print("===============================")
+        
+        unitcell = parsers.CifParser(cif_file)
         
         Crystal = crystal.Crystal(diameter, unitcell, occupancies, shape)
         
