@@ -10,6 +10,8 @@ import crystal
 import dse
 import plotting
 import parsers
+import sys
+from pympler import asizeof
 
 class Experiment():
     def __init__(self,wavelength,
@@ -30,7 +32,13 @@ class Experiment():
                  plot_crystal=False,
                  plot_results=None,
                  output_path = "output/",
-                 plot_2D_crystal = False):
+                 plot_2D_crystal = False,
+                 dry_run = False):
+        
+        if dry_run:
+            diameter = 1
+            partitions = 2
+
   
         if occupancies == {}:
             occ = False
@@ -49,6 +57,8 @@ class Experiment():
                                    occ = occ,
                                    gradient = gradient,
                                    plot = plot_crystal)
+        
+  
     
         if plot_2D_crystal:
             plotting.plot_2D(Crystal)
@@ -61,3 +71,10 @@ class Experiment():
         print("===============================")
         print("Experiment finished")
         print("===============================")
+        
+        
+# Fe3O4_Fd3m = "/Users/tobiaskohler/DebyeFunctionAnalysis/commit-2020-11-27/Fd-3m.cif" 
+# unitcell = parsers.CifParser(Fe3O4_Fd3m)
+        
+# Crystal = crystal.Crystal(1, unitcell, {}, "Sphere")
+# Crystal.calculate_formfactor_matrix_new()
