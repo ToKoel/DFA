@@ -21,8 +21,12 @@ from itertools import product
 from scipy.spatial.distance import pdist
 import sys
 import plotting
+from pympler import asizeof
 
-
+class FfLabel():
+    __slots__=["x"]
+    def __init__(self,x):
+        self.x = x
 
 class Atom():
     """
@@ -161,6 +165,8 @@ class Crystal():
         self.lattice_b = unitcell.lattice_b
         self.lattice_c = unitcell.lattice_c
         self.occupancies = occupancies
+        self.formfactor_array = []
+        print("formfactor: ",asizeof.asizeof(self.formfactor_array)/1000000)
         
         
         for i in self.elements:
@@ -458,6 +464,7 @@ class Crystal():
         coordinates,elements = self.return_coordinate_list()
         self.distance_array = pdist(coordinates)
         
+        
  
     def calculate_formfactor_matrix(self):
         """
@@ -481,18 +488,73 @@ class Crystal():
         None.
 
         """
-        coordinates,elements = self.return_coordinate_list()
+        coordinates,formfactors = self.return_coordinate_list()
+        ff_nums = []
+        keys= list(self.atom_numbers.keys())
+        
+        
+        for i in formfactors:
+            if i == keys[0]:           
+                ff_nums.append(2)
+            else:
+                ff_nums.append(3)
+                
+        formfactors = []       
+        for n,i in enumerate(ff_nums):
+           for k in ff_nums[n+1:]:
+               formfactors.append(i+k)
+               
+        ff_diag = []
+        for i in formfactors:
+            ff_diag.append(i+i)
+                
+        self.formfactor_array  = np.array(formfactors)
+        self.formfactors_same = np.array(ff_diag)
+        
+     
+        # coordinates,formfactors = self.return_coordinate_list()
+        
+             
+        # for n,i in enumerate(formfactors):
+        #     for k in formfactors[n+1:]:
+        #         self.formfactor_array["ff"].append(i+k)
+                
+       
+    
+   
+        # ff_diag = []
+        # for i in formfactors:
+        #         ff_diag.append(i+i)
+                
+        # self.formfactors_same=ff_diag
+        
+        #coordinates,elements = self.return_coordinate_list()
+        #formfactors = np.char.array(elements)
+
+
+        
+        # self.formfactor_matrix = (formfactors[:,None]+formfactors)
+ 
+        # self.formfactors_same = np.diagonal(self.formfactor_matrix)
+        
+        # self.formfactor_array = np.triu(self.formfactor_matrix, k=1)
+        # self.formfactor_array = self.formfactor_array.flatten()   
+        # self.formfactor_array = self.formfactor_array[self.formfactor_array != '']
+        
+    def calculate_formfactor_matrix_new(self):
+        coordinates, elements = self.return_coordinate_list()
         formfactors = np.char.array(elements)
         
-        self.formfactor_matrix = (formfactors[:,None]+formfactors)
- 
-        self.formfactors_same = np.diagonal(self.formfactor_matrix)
+        ff_triu = []      
+        for n,i in enumerate(formfactors):
+            for k in formfactors[n+1:]:
+                ff_triu.append(i+k)
+   
+        ff_diag = []
+        for i in formfactors:
+                ff_diag.append(i+i)
         
-        self.formfactor_array = np.triu(self.formfactor_matrix, k=1)
-        self.formfactor_array = self.formfactor_array.flatten()   
-        self.formfactor_array = self.formfactor_array[self.formfactor_array != '']
-        
-        
+  
         
     def build_nanoparticle(self, APB, occ,gradient, plot):
         """
@@ -541,9 +603,15 @@ class Crystal():
         
         self.calculate_formfactor_matrix()
         print("   - formfactor matrix generated")
+        print("formfactor: ",sys.getsizeof(self.formfactor_array)/1000000)
+        print("formfactor: ",asizeof.asizeof(self.formfactor_array)/1000000)
         
         self.calculate_distance_array()
         print("   - pair distances calculated") 
+        print("distance: ",sys.getsizeof(self.distance_array)/1000000)
+        
+        print("distance: ",asizeof.asizeof(self.distance_array)/1000000)
+        print("atoms: ",asizeof.asizeof(self.atoms)/1000000)
         
         print("Nanoparticle generated.")
         

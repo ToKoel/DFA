@@ -404,9 +404,20 @@ class DseCalculator():
             Scattered intensity of the sum over non-equal indices.
 
         """
+        
         f_ij_e = []
+        aa = eval(list((self.atom_numbers.keys()))[0]*2)
+        ab = eval(list((self.atom_numbers.keys()))[0]+list((self.atom_numbers.keys()))[1])
+        bb = eval(list((self.atom_numbers.keys()))[1]*2)
         for i in f_ij:
-            f_ij_e.append(eval(i))
+            if i == 5:
+                f_ij_e.append(ab)
+            elif i == 6:
+                f_ij_e.append(bb)
+            else:
+                f_ij_e.append(aa)
+        
+            #f_ij_e.append(eval(i))
             
         f_ij_e = np.array(f_ij_e)       
         distances *= self.latticepar
