@@ -10,10 +10,10 @@ import debye
 
 
 
-Fe3O4_Fd3m = "/Users/tobiaskohler/DebyeFunctionAnalysis/commit-2020-11-27/Fd-3m.cif" 
-Fe3O4_P43212 = "/Users/tobiaskohler/DebyeFunctionAnalysis/commit-2020-11-27/P4_32_12.cif" 
-CeO2 =  "/Users/tobiaskohler/DebyeFunctionAnalysis/commit-2020-11-27/CeO2_674b.cif"
-CaF2 = "/Users/tobiaskohler/DebyeFunctionAnalysis/commit-2020-11-27/CaF2.cif"       
+Fe3O4_Fd3m = "/DebyeFunctionAnalysis/commit-2020-11-27/Fd-3m.cif" 
+Fe3O4_P43212 = "/DebyeFunctionAnalysis/commit-2020-11-27/P4_32_12.cif" 
+CeO2 =  "/DebyeFunctionAnalysis/commit-2020-11-27/CeO2_674b.cif"
+CaF2 = "/DebyeFunctionAnalysis/commit-2020-11-27/CaF2.cif"       
 
 
 dry_run = False
@@ -34,7 +34,7 @@ debye.Experiment(wavelength = 0.21148,
                  APB = True,
                  plot_results= "Q",
                  plot_2D_crystal = False,
-                 output_path="/Users/tobiaskohler/PhD/Debye-TK/output/",
+                 output_path="/output/",
                  dry_run=dry_run)
 
 
@@ -54,7 +54,7 @@ debye.Experiment(wavelength = 0.21148,
                   APB = False,
                   plot_results= "Q",
                   plot_2D_crystal = False,
-                  output_path="/Users/tobiaskohler/PhD/Debye-TK/output/",
+                  output_path="/output/",
                   dry_run=dry_run)
 
 debye.Experiment(wavelength = 0.21148, 
@@ -73,7 +73,7 @@ debye.Experiment(wavelength = 0.21148,
                  APB = True,
                  plot_results= "Q",
                  plot_2D_crystal = False,
-                 output_path="/Users/tobiaskohler/PhD/Debye-TK/output/",
+                 output_path="/output/",
                  dry_run=dry_run)
 
 
@@ -93,7 +93,7 @@ debye.Experiment(wavelength = 0.21148,
                   APB = False,
                   plot_results= "Q",
                   plot_2D_crystal = False,
-                  output_path="/Users/tobiaskohler/PhD/Debye-TK/output/",
+                  output_path="/output/",
                   dry_run=dry_run)
 
 # debye.Experiment(wavelength = 0.21148, 
@@ -112,7 +112,7 @@ debye.Experiment(wavelength = 0.21148,
 #                   APB = False,
 #                   plot_results= "Q",
 #                   plot_2D_crystal = False,
-#                   output_path="/Users/tobiaskohler/PhD/Debye-TK/output/",
+#                   output_path="/output/",
 #                   dry_run=dry_run)
 
 # debye.Experiment(wavelength = 0.21148, 
@@ -131,7 +131,7 @@ debye.Experiment(wavelength = 0.21148,
 #                   APB = True,
 #                   plot_results= "Q",
 #                   plot_2D_crystal = False,
-#                   output_path="/Users/tobiaskohler/PhD/Debye-TK/output/",
+#                   output_path="/output/",
 #                   dry_run=dry_run)
 
 # debye.Experiment(wavelength = 0.21148, 
@@ -150,7 +150,7 @@ debye.Experiment(wavelength = 0.21148,
 #                   APB = False,
 #                   plot_results= "Q",
 #                   plot_2D_crystal = False,
-#                   output_path="/Users/tobiaskohler/PhD/Debye-TK/output/",
+#                   output_path="/output/",
 #                   dry_run=dry_run)
 
 
